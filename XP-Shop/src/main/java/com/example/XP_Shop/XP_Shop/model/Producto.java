@@ -1,5 +1,7 @@
 package com.example.XP_Shop.XP_Shop.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,11 +48,15 @@ public class Producto {
     @Column(nullable = false, length = 100)
     private String descripcionProducto;
 
-    @ManyToMany
+    @ManyToMany // preguntar al profesor si es many to one o many to many
     @JoinColumn(name = "idMarca")
     private Marca marca;
 
     @ManyToMany
     @JoinColumn(name = "idCategoria")
     private Categoria categoria;
+
+    @ManyToMany(mappedBy = "productos")
+    private List<Imagen> imagenes;
+    
 }

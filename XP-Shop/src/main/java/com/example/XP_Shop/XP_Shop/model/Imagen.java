@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,6 +30,9 @@ public class Imagen {
     @Column(nullable = false, length = 100)
     private String nombreImagen;
 
+    @ManyToOne
+    @JoinColumn(name = "idProducto")
+    private Producto producto;
     
     
 }

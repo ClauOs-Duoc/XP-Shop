@@ -1,10 +1,15 @@
 package com.example.XP_Shop.XP_Shop.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,5 +42,19 @@ public class Usuario {
     @Size(min = 10, max = 30, message = "Debe llenar el apartado con entre 10 y 30 caracteres")
     @Column(nullable = false, length = 30)
     private String fechaNacimiento;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Boleta> boletas;
     
+    @ManyToOne
+    @JoinColumn(name = "metodoPagoId")
+    private MetodoPago metodoPago;
+
+    @OneToMany(mappedBy = "regionId")
+    private List<Comuna> comunas;
+
+    @ManyToOne
+    @JoinColumn(name = "region")
+    private Region region;
+
 }
