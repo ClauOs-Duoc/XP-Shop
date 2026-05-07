@@ -25,7 +25,7 @@ public class Boleta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBoleta;
+    private Integer idBoleta;
 
     @Column(nullable = false)
     private LocalDate fechaCompra;

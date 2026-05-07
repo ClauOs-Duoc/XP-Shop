@@ -24,7 +24,7 @@ public class DetalleBoleta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDetalleBoleta;
+    private Integer idDetalleBoleta;
 
     @NotNull(message = "Es obligatorio llenar este apartado")
     @Min(value = 1, message = "La cantidad debe ser al menos 1")

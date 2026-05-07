@@ -8,4 +8,6 @@ import com.example.XP_Shop.XP_Shop.model.DetalleBoleta;
 @Repository
 public interface DetalleBoletaRepository extends JpaRepository<DetalleBoleta, Long>{
 
+    
+
 }

@@ -28,7 +28,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Integer idUsuario;
 
     @NotBlank (message = "Es obligatorio llenar este apartado")
     @Size(min = 2, max = 100, message = "Debe llenar el apartado con entre 2 y 100 caracteres")
@@ -48,6 +48,6 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "region_Id")
-    private Comuna comuna;
+    private Region region;
 
 }
