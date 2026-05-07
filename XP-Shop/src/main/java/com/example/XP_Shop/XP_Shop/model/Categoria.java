@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +33,4 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nombreCategoria;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Producto> productos;
-    
 }

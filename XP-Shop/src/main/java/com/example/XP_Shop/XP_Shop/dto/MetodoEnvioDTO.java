@@ -1,5 +1,14 @@
-package com.example.XP_Shop.dto;
+package com.example.XP_Shop.XP_Shop.dto;
 
-public class MetodoEnvio {
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class MetodoEnvioDTO {
+
+    private Integer idMetodoEnvio;
+    private String nombreMetodoEnvio;
+    private List<Integer> idBoleta;
 
 }

@@ -1,11 +1,14 @@
 package com.example.XP_Shop.XP_Shop.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -30,8 +33,12 @@ public class Comuna {
     @Column(nullable = false, length = 100)
     private String nombreComuna;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "region_Id")
-    private Categoria categoria;
+    private Region regionId;
+
+    @OneToMany
+    @JoinColumn(name = "usuario_Id")
+    private List<Usuario> usuario;
     
 }

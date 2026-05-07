@@ -16,5 +16,9 @@ public class ImagenService {
 
     @Autowired
     private ImagenRepository imagenRepository;
-    
+
+    public List<Imagen> obtenerTodos() {
+    return imagenRepository.findAll();
+    }
+
 }

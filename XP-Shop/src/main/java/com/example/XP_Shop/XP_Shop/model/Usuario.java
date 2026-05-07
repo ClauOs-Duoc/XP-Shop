@@ -48,6 +48,6 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "region_Id")
-    private Region region;
+    private Comuna comuna;
 
 }
