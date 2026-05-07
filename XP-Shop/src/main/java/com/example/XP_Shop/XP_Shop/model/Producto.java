@@ -8,7 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "productos")
+@Table(name = "producto")
 public class Producto {
     
     @Id
@@ -37,26 +38,31 @@ public class Producto {
     @Column(nullable = false, length = 100)
     private String nombreProducto;
 
-    @NotNull (message = "Es obligatorio asignar un valor a este apartado")
+    @NotNull (message = "Debe asignar un precio al producto")
     @Min(value = 1, message = "El producto no puede tener un precio inferior a 1")
     @Max(value = 20000000, message = "El producto no puede tener un valor superior a 20000000")
     @Column(nullable = false)
-    private Integer precio;
+    private Double precio;
 
     @NotBlank (message = "Es obligatorio llenar este apartado")
     @Size(min = 2, max = 100, message = "Debe llenar el apartado con entre 2 y 100 caracteres")
     @Column(nullable = false, length = 100)
     private String descripcionProducto;
 
-    @ManyToMany // preguntar al profesor si es many to one o many to many
-    @JoinColumn(name = "idMarca")
+    @NotNull
+    @Min(value = 0, message = "El producto no puede tener una cantidad inferior a 0")
+    @Column(nullable = false)
+    private Integer stock;
+
+    @ManyToOne
+    @JoinColumn(name = "marca_Id")
     private Marca marca;
 
-    @ManyToMany
-    @JoinColumn(name = "idCategoria")
+    @ManyToOne
+    @JoinColumn(name = "categoria_Id")
     private Categoria categoria;
 
-    @ManyToMany(mappedBy = "productos")
+    @OneToMany(mappedBy = "producto")
     private List<Imagen> imagenes;
-    
+
 }

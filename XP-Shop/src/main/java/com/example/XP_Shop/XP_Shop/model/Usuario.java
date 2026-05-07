@@ -1,5 +1,6 @@
 package com.example.XP_Shop.XP_Shop.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -26,35 +28,26 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUsuario;
+    private Long idUsuario;
 
     @NotBlank (message = "Es obligatorio llenar este apartado")
     @Size(min = 2, max = 100, message = "Debe llenar el apartado con entre 2 y 100 caracteres")
     @Column(nullable = false, length = 100)
     private String nombreUsuario;
 
-    @NotBlank (message = "Es obligatorio llenar este apartado")
-    @Size(min = 10, max = 100, message = "Debe llenar el apartado con entre 10 y 100 caracteres")
-    @Column(nullable = false, length = 100)
+    @Email(message = "Correo invalido")
+    @NotBlank(message = "Es obligatorio llenar este apartado")
+    @Column(nullable = false, unique = true)
     private String correo;
 
-    @NotBlank (message = "Es obligatorio llenar este apartado")
-    @Size(min = 10, max = 30, message = "Debe llenar el apartado con entre 10 y 30 caracteres")
-    @Column(nullable = false, length = 30)
-    private String fechaNacimiento;
+    @Column(nullable = false)
+    private LocalDate fechaNacimiento;
 
     @OneToMany(mappedBy = "usuario")
     private List<Boleta> boletas;
-    
-    @ManyToOne
-    @JoinColumn(name = "metodoPagoId")
-    private MetodoPago metodoPago;
-
-    @OneToMany(mappedBy = "regionId")
-    private List<Comuna> comunas;
 
     @ManyToOne
-    @JoinColumn(name = "region")
+    @JoinColumn(name = "region_Id")
     private Region region;
 
 }

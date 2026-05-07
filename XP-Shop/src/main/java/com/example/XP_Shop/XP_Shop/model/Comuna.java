@@ -31,7 +31,7 @@ public class Comuna {
     private String nombreComuna;
 
     @OneToMany
-    @JoinColumn(name = "idRegion")
+    @JoinColumn(name = "region_Id")
     private Categoria categoria;
     
 }
