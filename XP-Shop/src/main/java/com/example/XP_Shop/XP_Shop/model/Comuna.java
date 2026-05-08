@@ -35,7 +35,7 @@ public class Comuna {
 
     @ManyToOne
     @JoinColumn(name = "region_Id")
-    private Region regionId;
+    private Region region;
 
     @OneToMany
     @JoinColumn(name = "usuario_Id")

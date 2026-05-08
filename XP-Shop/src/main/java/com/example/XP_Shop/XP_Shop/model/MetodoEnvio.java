@@ -34,6 +34,6 @@ public class MetodoEnvio {
 
     @OneToMany
     @JoinColumn(name = "id_boleta")
-    private List<Boleta> boleta;
+    private List<Boleta> boletas;
     
 }

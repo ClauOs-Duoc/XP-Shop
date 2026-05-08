@@ -1,5 +1,6 @@
 package com.example.XP_Shop.XP_Shop.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class RegionService {
         dto.setNombreRegion(region.getNombreRegion());
 
         if (region.getComunas() != null){
-            List<String> nombres = region.getComunas().stream()
-                    .map(Comuna::getNombreComuna)
-                    .toList();
-            dto.setNombreComunas(nombres);
+            List<String> nombresComunas = new ArrayList<>();
+            for(Comuna comuna : region.getComunas()){
+                nombresComunas.add(comuna.getNombreComuna());
+            }
+            dto.setNombreComunas(nombresComunas);
         }
 
         return dto;

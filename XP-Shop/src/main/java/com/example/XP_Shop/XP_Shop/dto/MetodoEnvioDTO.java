@@ -9,6 +9,6 @@ public class MetodoEnvioDTO {
 
     private Integer idMetodoEnvio;
     private String nombreMetodoEnvio;
-    private List<Integer> idBoleta;
+    private List<Integer> boletas;
 
 }

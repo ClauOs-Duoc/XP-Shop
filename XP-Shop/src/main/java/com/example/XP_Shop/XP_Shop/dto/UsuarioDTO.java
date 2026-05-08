@@ -15,5 +15,4 @@ public class UsuarioDTO {
     private List<Integer> idBoleta;
     private String nombreComuna;
 
-
 }
