@@ -32,7 +32,7 @@ public class Marca {
     private String nombreMarca;
 
     @OneToMany(mappedBy = "marca")
-    private List<Producto> productos;
+    private List<Marcas> marcas;
     
 
 }

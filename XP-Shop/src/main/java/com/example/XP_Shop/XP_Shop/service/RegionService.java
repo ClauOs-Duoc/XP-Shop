@@ -28,7 +28,7 @@ public class RegionService {
 
         if (region.getComunas() != null){
             List<String> nombres = region.getComunas().stream()
-                    .map(Comuna::getNombre)
+                    .map(Comuna::getNombreComuna)
                     .toList();
             dto.setNombreComunas(nombres);
         }

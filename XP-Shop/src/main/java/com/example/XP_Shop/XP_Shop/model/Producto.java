@@ -54,6 +54,9 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
+    @OneToMany(mappedBy = "producto")
+    private List<Productos> productos;
+    
     @ManyToOne
     @JoinColumn(name = "marca_Id")
     private Marca marca;
@@ -64,5 +67,6 @@ public class Producto {
 
     @OneToMany(mappedBy = "producto")
     private List<Imagen> imagenes;
+
 
 }

@@ -31,8 +31,11 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nombreCategoria;
 
+    @OneToMany(mappedBy = "marca")
+    private List<Categorias> categorias;
+
     @OneToMany(mappedBy = "categoria")
-    private List<Producto> productos;
+    private List<Productos> productos;
 
 
 }
