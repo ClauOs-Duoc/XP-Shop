@@ -16,5 +16,56 @@ public class ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
-    
+
+    public List<Producto> ListarProducto() {
+        return productoRepository.findAll();
+    }
+
+    public Producto BuscarProductoPorId(Integer id) {
+        return productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡El producto no existe en los registros!"));
+    }
+
+    public Producto GuardarProducto(Producto producto) {
+        return productoRepository.save(producto);
+    }
+
+    public Producto ActualizarProducto(Integer id, Producto producto) {
+        Producto productoExistente = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡El producto no existe en los registros!"));
+
+        if (producto.getNombreProducto() != null) {
+            productoExistente.setNombreProducto(producto.getNombreProducto());
+        }
+        if (producto.getPrecio() != null) {
+            productoExistente.setPrecio(producto.getPrecio());
+        }
+        if (producto.getDescripcionProducto() != null) {
+            productoExistente.setDescripcionProducto(producto.getDescripcionProducto());
+        }
+        if (producto.getStock() != null) {
+            productoExistente.setStock(producto.getStock());
+        }
+        if (producto.getMarca() != null) {
+            productoExistente.setMarca(producto.getMarca());
+        }
+        if (producto.getCategoria() != null) {
+            productoExistente.setCategoria(producto.getCategoria());
+        }
+
+        return productoRepository.save(productoExistente);
+    }
+
+    public String EliminarProducto(Integer id) {
+        try {
+            Producto producto = productoRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El producto con ID " 
+                            + id + " no existe."));
+
+            productoRepository.delete(producto);
+            return "El producto ha sido eliminado exitosamente.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }

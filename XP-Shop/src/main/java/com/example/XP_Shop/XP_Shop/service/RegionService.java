@@ -37,5 +37,41 @@ public class RegionService {
 
         return dto;
     }
-    
+
+    public List<Region> ListarRegion() {
+        return regionRepository.findAll();
+    }
+
+    public Region BuscarRegionPorId(Integer id) {
+        return regionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La región no existe en los registros!"));
+    }
+
+    public Region GuardarRegion(Region region) {
+        return regionRepository.save(region);
+    }
+
+    public Region ActualizarRegion(Integer id, Region region) {
+        Region regionExistente = regionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La región no existe en los registros!"));
+
+        if (region.getNombreRegion() != null) {
+            regionExistente.setNombreRegion(region.getNombreRegion());
+        }
+
+        return regionRepository.save(regionExistente);
+    }
+
+    public String EliminarRegion(Integer id) {
+        try {
+            Region region = regionRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La región con ID " 
+                            + id + " no existe."));
+
+            regionRepository.delete(region);
+            return "La región ha sido eliminada exitosamente.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }

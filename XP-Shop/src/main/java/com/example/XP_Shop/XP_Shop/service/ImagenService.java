@@ -36,8 +36,43 @@ public class ImagenService {
         return dto;
     }
 
-    public List<Imagen> obtenerTodos() {
-    return imagenRepository.findAll();
+    public List<Imagen> ListarImagen() {
+        return imagenRepository.findAll();
     }
 
+    public Imagen buscarImagenPorId(Integer id) {
+        return imagenRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La imagen no existe en los registros!"));
+    }
+
+    public Imagen GuardarImagen(Imagen imagen) {
+        return imagenRepository.save(imagen);
+    }
+    
+    public Imagen ActualizarImagen(Integer id, Imagen imagen) {
+        Imagen imagenExistente = imagenRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La imagen no existe en los registros!"));
+
+        if (imagen.getNombreImagen() != null) {
+            imagenExistente.setNombreImagen(imagen.getNombreImagen());
+        }
+        if (imagen.getProducto() != null) {
+            imagenExistente.setProducto(imagen.getProducto());
+        }
+
+        return imagenRepository.save(imagenExistente);
+    }
+
+    public String EliminarImagen(Integer id) {
+        try {
+            Imagen imagen = imagenRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La imagen con ID " 
+                            + id + " no existe."));
+
+            imagenRepository.delete(imagen);
+            return "La imagen ha sido eliminada exitosamente.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }

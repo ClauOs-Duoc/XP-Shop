@@ -35,5 +35,42 @@ public class MarcaService {
         }
         return dto;
     }
-    
+
+
+    public List<Marca> listarMarca() {
+        return marcaRepository.findAll();
+    }
+
+    public Marca BuscarMarcaPorId(Integer id) {
+        return marcaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La marca no existe en los registros!"));
+    }
+
+    public Marca GuardarMarca(Marca marca) {
+        return marcaRepository.save(marca);
+    }
+
+    public Marca ActualizarMarca(Integer id, Marca marca) {
+        Marca marcaExistente = marcaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡La marca no existe en los registros!"));
+
+        if (marca.getNombreMarca() != null) {
+            marcaExistente.setNombreMarca(marca.getNombreMarca());
+        }
+
+        return marcaRepository.save(marcaExistente);
+    }
+
+    public String EliminarMarca(Integer id) {
+        try {
+            Marca marca = marcaRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La marca con ID " 
+                            + id + " no existe."));
+
+            marcaRepository.delete(marca);
+            return "La marca ha sido eliminada exitosamente.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }

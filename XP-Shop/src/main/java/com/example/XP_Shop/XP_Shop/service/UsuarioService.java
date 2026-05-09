@@ -16,5 +16,50 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    public List<Usuario> ListarUsuario() {
+        return usuarioRepository.findAll();
+    }
+
+    public Usuario BuscarUsuarioPorId(Integer id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡El usuario no existe en los registros!"));
+    }
+
+    public Usuario GuardarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
     
+    public Usuario ActualizarUsuario(Integer id, Usuario usuario) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("¡El usuario no existe en los registros!"));
+
+        if (usuario.getNombreUsuario() != null) {
+            usuarioExistente.setNombreUsuario(usuario.getNombreUsuario());
+        }
+        if (usuario.getCorreo() != null) {
+            usuarioExistente.setCorreo(usuario.getCorreo());
+        }
+        if (usuario.getFechaNacimiento() != null) {
+            usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
+        }
+        if (usuario.getRegion() != null) {
+            usuarioExistente.setRegion(usuario.getRegion());
+        }
+
+        return usuarioRepository.save(usuarioExistente);
+    }
+
+    public String EliminarUsuario(Integer id) {
+        try {
+            Usuario usuario = usuarioRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El usuario con ID " 
+                            + id + " no existe."));
+
+            usuarioRepository.delete(usuario);
+            return "El usuario ha sido eliminado exitosamente.";
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }
