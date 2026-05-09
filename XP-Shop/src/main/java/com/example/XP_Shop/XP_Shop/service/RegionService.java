@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.XP_Shop.XP_Shop.repository.RegionRepository;
 import com.example.XP_Shop.XP_Shop.dto.RegionDTO;
 import com.example.XP_Shop.XP_Shop.model.Comuna;
 import com.example.XP_Shop.XP_Shop.model.Region;
+import com.example.XP_Shop.XP_Shop.repository.RegionRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -22,11 +22,8 @@ public class RegionService {
 
     private RegionDTO convertirRegionADTO(Region region){
         RegionDTO dto = new RegionDTO();
-
         dto.setIdRegion(region.getIdRegion());
-
         dto.setNombreRegion(region.getNombreRegion());
-
         if (region.getComunas() != null){
             List<String> nombresComunas = new ArrayList<>();
             for(Comuna comuna : region.getComunas()){
@@ -38,36 +35,41 @@ public class RegionService {
         return dto;
     }
 
-    public List<Region> ListarRegion() {
-        return regionRepository.findAll();
+    public List<RegionDTO> listarRegion() {
+        return regionRepository.findAll().stream()
+                    .map(this::convertirRegionADTO)
+                    .toList();
+    }
+    
+    public RegionDTO nuscarRegionPorId(Integer id) {
+        Region region = regionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Region no encontrado"));
+        return convertirRegionADTO(region);
     }
 
-    public Region BuscarRegionPorId(Integer id) {
-        return regionRepository.findById(id).orElseThrow(() -> new RuntimeException("La región no existe."));
+    public RegionDTO guardarRegion(Region region) {
+        Region savedRegion = regionRepository.save(region);
+        return convertirRegionADTO(savedRegion);
     }
 
-    public Region GuardarRegion(Region region) {
-        return regionRepository.save(region);
-    }
-
-    public Region ActualizarRegion(Integer id, Region region) {
-        Region regionExistente = regionRepository.findById(id).orElseThrow(() -> new RuntimeException("La región no existe."));
-
+    public RegionDTO actualizarRegion(Integer id, Region region) {
+        Region regionExistente = regionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("La region no existe."));
         if (region.getNombreRegion() != null) {
             regionExistente.setNombreRegion(region.getNombreRegion());
         }
+        if (region.getComunas() != null) {
+            regionExistente.setComunas(region.getComunas());
+        }
 
-        return regionRepository.save(regionExistente);
+        Region updatedRegion = regionRepository.save(regionExistente);
+        return convertirRegionADTO(updatedRegion);
     }
 
-    public String EliminarRegion(Integer id) {
-        try {
-            Region region = regionRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La región con ID " + id + " no existe."));
-
-            regionRepository.delete(region);
-            return "La región ha sido eliminada correctamente.";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+    public Void eliminarRegion(Integer id) {
+        Region region = regionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar la region con ID " + id + " no existe."));
+        regionRepository.delete(region);
+        return null;
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -35,14 +36,12 @@ public class DetalleBoleta {
     @Column(nullable = false)
     private Double subtotal;
 
-    @ManyToOne
-    @JoinColumn(name = "boleta_Id")
+    @OneToOne
+    @JoinColumn(name = "boleta_id")
     private Boleta boleta;
 
     @ManyToOne
-    @JoinColumn(name = "producto_Id")
-    private Producto producto;
-
-
+    @JoinColumn(name = "productos_id")
+    private Productos productos;
 
 }

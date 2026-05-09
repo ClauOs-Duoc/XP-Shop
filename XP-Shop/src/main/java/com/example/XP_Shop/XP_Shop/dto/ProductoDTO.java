@@ -12,9 +12,9 @@ public class ProductoDTO {
     private Double precio;
     private String descripcionProducto;
     private Integer stock;
-    private List<String> productos;
-    private String marca;
-    private String categoria;
+    private Integer idProductos;
+    private Integer idMarcas;
+    private Integer idCategorias;
     private List<String> imagenes;
     
 }

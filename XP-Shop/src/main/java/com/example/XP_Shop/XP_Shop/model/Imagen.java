@@ -1,7 +1,5 @@
 package com.example.XP_Shop.XP_Shop.model;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -36,9 +33,5 @@ public class Imagen {
     @ManyToOne
     @JoinColumn(name = "productoId")
     private Producto producto;
-
-    @OneToMany(mappedBy = "imagen")
-    private List<Imagen> imagenes;
-    
     
 }

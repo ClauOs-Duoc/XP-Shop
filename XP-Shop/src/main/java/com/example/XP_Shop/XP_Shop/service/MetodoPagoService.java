@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.XP_Shop.XP_Shop.dto.MetodoPagoDTO;
-import com.example.XP_Shop.XP_Shop.repository.MetodoPagoRepository;
 import com.example.XP_Shop.XP_Shop.model.Boleta;
 import com.example.XP_Shop.XP_Shop.model.MetodoPago;
+import com.example.XP_Shop.XP_Shop.repository.MetodoPagoRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -36,35 +36,41 @@ public class MetodoPagoService {
         return dto;
     }
 
-    public List<MetodoPago> ListarMetodoPago() {
-        return metodoPagoRepository.findAll();
+    public List<MetodoPagoDTO> listarMetodoPago() {
+        return metodoPagoRepository.findAll().stream()
+                    .map(this::convertirMetodoPagoADTO)
+                    .toList();
+    }
+    
+    public MetodoPagoDTO buscarMetodoPagoPorId(Integer id) {
+        MetodoPago metodoPago = metodoPagoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("MetodoPago no encontrado"));
+        return convertirMetodoPagoADTO(metodoPago);
     }
 
-    public MetodoPago BuscarMetodoPagoPorId(Integer id) {
-        return metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de pago no existe."));
+    public MetodoPagoDTO guardarMetodoPago(MetodoPago metodoPago) {
+        MetodoPago savedMetodoPago = metodoPagoRepository.save(metodoPago);
+        return convertirMetodoPagoADTO(savedMetodoPago);
     }
 
-    public MetodoPago GuardarMetodoPago(MetodoPago metodoPago) {
-        return metodoPagoRepository.save(metodoPago);
-    }
-
-    public MetodoPago ActualizarMetodoPago(Integer id, MetodoPago metodoPago) {
-        MetodoPago metodoExistente = metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de pago no existe."));
-
+    public MetodoPagoDTO actualizarMetodoPago(Integer id, MetodoPago metodoPago) {
+        MetodoPago metodoPagoExistente = metodoPagoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("El metodoPago no existe."));
         if (metodoPago.getNombreMetodoPago() != null) {
-            metodoExistente.setNombreMetodoPago(metodoPago.getNombreMetodoPago());
+            metodoPagoExistente.setNombreMetodoPago(metodoPago.getNombreMetodoPago());
+        }
+        if (metodoPago.getBoletas() != null) {
+            metodoPagoExistente.setBoletas(metodoPago.getBoletas());
         }
 
-        return metodoPagoRepository.save(metodoExistente);
+        MetodoPago updatedMetodoPago = metodoPagoRepository.save(metodoPagoExistente);
+        return convertirMetodoPagoADTO(updatedMetodoPago);
     }
 
-    public String EliminarMetodoPago(Integer id) {
-        try {
-            MetodoPago metodoPago = metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar el método de pago con ID " + id + " no existe."));
-            metodoPagoRepository.delete(metodoPago);
-            return "El método de pago ha sido eliminado correctamente.";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+    public Void eliminarMetodoPago(Integer id) {
+        MetodoPago metodoPago = metodoPagoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar el metodoPago con ID " + id + " no existe."));
+        metodoPagoRepository.delete(metodoPago);
+        return null;
     }
 }

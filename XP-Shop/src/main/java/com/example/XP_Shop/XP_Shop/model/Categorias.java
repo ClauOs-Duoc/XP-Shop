@@ -1,11 +1,13 @@
 package com.example.XP_Shop.XP_Shop.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,14 +22,14 @@ public class Categorias {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMarcas;
+    private Integer idCategorias;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "categoria")
     @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    private List<Categoria> categoria;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "producto")
     @JoinColumn(name = "producto_id")
-    private Producto producto;
+    private List<Producto> producto;
 
 }

@@ -36,35 +36,41 @@ public class MetodoEnvioService {
         return dto;
     }
 
-    public List<MetodoEnvio> ListarMetodoEnvio() {
-        return metodoEnvioRepository.findAll();
+    public List<MetodoEnvioDTO> listarMetodoEnvio() {
+        return metodoEnvioRepository.findAll().stream()
+                    .map(this::convertirMetodoEnvioADTO)
+                    .toList();
     }
     
-    public MetodoEnvio BuscarMetodoEnvioPorId(Integer id) {
-        return metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de envío no existe."));
+    public MetodoEnvioDTO buscarMetodoEnvioPorId(Integer id) {
+        MetodoEnvio metodoEnvio = metodoEnvioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("MetodoEnvio no encontrado"));
+        return convertirMetodoEnvioADTO(metodoEnvio);
     }
 
-    public MetodoEnvio GuardarMetodoEnvio(MetodoEnvio metodoEnvio) {
-        return metodoEnvioRepository.save(metodoEnvio);
+    public MetodoEnvioDTO guardarMetodoEnvio(MetodoEnvio metodoEnvio) {
+        MetodoEnvio savedMetodoEnvio = metodoEnvioRepository.save(metodoEnvio);
+        return convertirMetodoEnvioADTO(savedMetodoEnvio);
     }
 
-    public MetodoEnvio ActualizarMetodoEnvio(Integer id, MetodoEnvio metodoEnvio) {
-        MetodoEnvio metodoExistente = metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de envío no existe."));
-
+    public MetodoEnvioDTO actualizarMetodoEnvio(Integer id, MetodoEnvio metodoEnvio) {
+        MetodoEnvio metodoEnvioExistente = metodoEnvioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("El metodoEnvio no existe."));
         if (metodoEnvio.getNombreMetodoEnvio() != null) {
-            metodoExistente.setNombreMetodoEnvio(metodoEnvio.getNombreMetodoEnvio());
+            metodoEnvioExistente.setNombreMetodoEnvio(metodoEnvio.getNombreMetodoEnvio());
+        }
+        if (metodoEnvio.getBoletas() != null) {
+            metodoEnvioExistente.setBoletas(metodoEnvio.getBoletas());
         }
 
-        return metodoEnvioRepository.save(metodoExistente);
+        MetodoEnvio updatedMetodoEnvio = metodoEnvioRepository.save(metodoEnvioExistente);
+        return convertirMetodoEnvioADTO(updatedMetodoEnvio);
     }
 
-    public String EliminarMetodoEnvio(Integer id) {
-        try {
-            MetodoEnvio metodoEnvio = metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar el método de envío con ID " + id + " no existe."));
-            metodoEnvioRepository.delete(metodoEnvio);
-            return "El método de envío ha sido eliminado correctamente.";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+    public Void eliminarMetodoEnvio(Integer id) {
+        MetodoEnvio metodoEnvio = metodoEnvioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar el metodoEnvio con ID " + id + " no existe."));
+        metodoEnvioRepository.delete(metodoEnvio);
+        return null;
     }
 }

@@ -47,7 +47,7 @@ public class Usuario {
     private List<Boleta> boletas;
 
     @ManyToOne
-    @JoinColumn(name = "region_Id")
-    private Region region;
+    @JoinColumn(name = "comuna_Id")
+    private Comuna comuna;
 
 }

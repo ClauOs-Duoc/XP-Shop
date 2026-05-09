@@ -3,9 +3,9 @@ package com.example.XP_Shop.XP_Shop.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.XP_Shop.XP_Shop.model.DetalleBoleta;
+import com.example.XP_Shop.XP_Shop.model.Categorias;
 
 @Repository
-public interface DetalleBoletaRepository extends JpaRepository<DetalleBoleta, Integer>{
-
+public interface CategoriasRepository extends JpaRepository<Categorias, Integer>{
+    
 }

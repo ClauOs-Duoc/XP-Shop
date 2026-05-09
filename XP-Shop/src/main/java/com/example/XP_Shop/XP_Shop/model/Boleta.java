@@ -8,8 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -41,13 +41,13 @@ public class Boleta {
     @ManyToOne
     @JoinColumn(name = "metodoEnvio_Id")
     private MetodoEnvio metodoEnvio;
-
-    @ManyToMany
-    @JoinColumn(name = "producto_Id")
-    private Producto producto;
     
     @ManyToOne
     @JoinColumn(name = "metodoPago_Id")
     private MetodoPago metodoPago;
+
+    @OneToOne
+    @JoinColumn(name = "detalleBoleta_id")
+    private DetalleBoleta detalleBoleta;
     
 }

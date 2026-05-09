@@ -1,14 +1,13 @@
 package com.example.XP_Shop.XP_Shop.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.XP_Shop.XP_Shop.dto.ImagenDTO;
-import com.example.XP_Shop.XP_Shop.repository.ImagenRepository;
 import com.example.XP_Shop.XP_Shop.model.Imagen;
+import com.example.XP_Shop.XP_Shop.repository.ImagenRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -20,9 +19,7 @@ public class ImagenService {
     private ImagenRepository imagenRepository;
 
     private ImagenDTO convertirImagenADTO(Imagen imagen){
-
         ImagenDTO dto = new ImagenDTO();
-
         dto.setIdImagen(imagen.getIdImagen());
         dto.setNombreImagen(imagen.getNombreImagen());
 
@@ -32,18 +29,15 @@ public class ImagenService {
         return dto;
     }
 
-    public List<ImagenDTO> listarImagen() {
-        List<Imagen> imagenes = imagenRepository.findAll();
-        List<ImagenDTO> dtoList = new ArrayList<>();
-
-        for (Imagen imagen : imagenes) {
-            dtoList.add(convertirImagenADTO(imagen));
-        }
-        return dtoList;
+    public List<ImagenDTO> listarMetodoEnvio() {
+        return imagenRepository.findAll().stream()
+                    .map(this::convertirImagenADTO)
+                    .toList();
     }
 
     public ImagenDTO buscarImagenPorId(Integer id) {
-        Imagen imagen = imagenRepository.findById(id).orElseThrow(() -> new RuntimeException("La imagen no existe."));
+        Imagen imagen = imagenRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("La imagen no existe."));
         return convertirImagenADTO(imagen);
     }
 
@@ -66,10 +60,9 @@ public class ImagenService {
     }
 
     public Void eliminarImagen(Integer id) {
-
-        Imagen imagen = imagenRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar la imagen con ID " + id + " no existe."));
+        Imagen imagen = imagenRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar la imagen con ID " + id + " no existe."));
         imagenRepository.delete(imagen);
         return null;
-    
     }
 }

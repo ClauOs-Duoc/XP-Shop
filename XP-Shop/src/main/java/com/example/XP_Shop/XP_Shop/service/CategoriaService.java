@@ -1,9 +1,11 @@
 package com.example.XP_Shop.XP_Shop.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.XP_Shop.XP_Shop.dto.CategoriaDTO;
 import com.example.XP_Shop.XP_Shop.model.Categoria;
 import com.example.XP_Shop.XP_Shop.repository.CategoriaRepository;
 
@@ -16,35 +18,50 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public List<Categoria> listarCategoria() {
-        return categoriaRepository.findAll();
+    private CategoriaDTO convertirCategoriaADTO(Categoria categoria){
+        CategoriaDTO dto = new CategoriaDTO();
+        dto.setIdCategoria(categoria.getIdCategoria());
+        dto.setNombreCategoria(categoria.getNombreCategoria());
+        dto.setIdCategorias(categoria.getCategorias().getIdCategorias());
+
+        return dto;
+    }
+
+    public List<CategoriaDTO> listarCategoria() {
+        return categoriaRepository.findAll().stream()
+                    .map(this::convertirCategoriaADTO)
+                    .toList();
     }
     
-    public Categoria BuscarCategoriaPorId(Integer id) {
-        return categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("La categoria no existe."));
+    public CategoriaDTO buscarCategoriaPorId(Integer id) {
+        Categoria categoria = categoriaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+        return convertirCategoriaADTO(categoria);
     }
 
-    public Categoria GuardarCategoria(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public CategoriaDTO guardarCategoria(Categoria categoria) {
+        Categoria savedCategoria = categoriaRepository.save(categoria);
+        return convertirCategoriaADTO(savedCategoria);
     }
 
-    public Categoria ActualizarCategoria(Integer id, Categoria categoria) {
-        Categoria categoriaExistente = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("La categoria no existe."));
-
+    public CategoriaDTO actualizarCategoria(Integer id, Categoria categoria) {
+        Categoria categoriaExistente = categoriaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("La categoria no existe."));
         if (categoria.getNombreCategoria() != null) {
             categoriaExistente.setNombreCategoria(categoria.getNombreCategoria());
         }
+        if (categoria.getCategorias() != null) {
+            categoriaExistente.setCategorias(categoria.getCategorias());
+        }
 
-        return categoriaRepository.save(categoriaExistente);
+        Categoria updatedCategoria = categoriaRepository.save(categoriaExistente);
+        return convertirCategoriaADTO(updatedCategoria);
     }
 
-    public String EliminarCategoria(Integer id) {
-        try {
-            Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La categoría con ID" + id + " no existe."));
-            categoriaRepository.delete(categoria);
-            return "La categoría ha sido eliminada correctamente.";
-        } catch (RuntimeException e) {
-            return e.getMessage();
-        }
+    public Void eliminarCategoria(Integer id) {
+        Categoria categoria = categoriaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar la categoria con ID " + id + " no existe."));
+        categoriaRepository.delete(categoria);
+        return null;
     }
 }

@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.XP_Shop.XP_Shop.dto.ComunaDTO;
-import com.example.XP_Shop.XP_Shop.repository.ComunaRepository;
-import com.example.XP_Shop.XP_Shop.model.Boleta;
 import com.example.XP_Shop.XP_Shop.model.Comuna;
 import com.example.XP_Shop.XP_Shop.model.Usuario;
+import com.example.XP_Shop.XP_Shop.repository.ComunaRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -21,7 +20,7 @@ public class ComunaService {
     @Autowired
     private ComunaRepository comunaRepository;
 
-    private ComunaDTO convertirComunaDTO(Comuna comuna){
+    private ComunaDTO convertirComunaADTO(Comuna comuna){
         ComunaDTO dto = new ComunaDTO();
         dto.setIdComuna(comuna.getIdComuna());
         dto.setNombreComuna(comuna.getNombreComuna());
@@ -38,38 +37,44 @@ public class ComunaService {
         return dto;
     }
 
-    public List<Comuna> ListarComuna() {
-        return comunaRepository.findAll();
+    public List<ComunaDTO> listarComuna() {
+        return comunaRepository.findAll().stream()
+                    .map(this::convertirComunaADTO)
+                    .toList();
+    }
+    
+    public ComunaDTO buscarComunaPorId(Integer id) {
+        Comuna comuna = comunaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Comuna no encontrado"));
+        return convertirComunaADTO(comuna);
     }
 
-    public Comuna BuscarComunaPorId(Integer id) {
-        return comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("La comuna no existe."));
+    public ComunaDTO guardarComuna(Comuna comuna) {
+        Comuna savedComuna = comunaRepository.save(comuna);
+        return convertirComunaADTO(savedComuna);
     }
 
-    public Comuna GuardarComuna(Comuna comuna) {
-        return comunaRepository.save(comuna);
-    }
-
-    public Comuna ActualizarComuna(Integer id, Comuna comuna) {
-        Comuna comunaExistente = comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("La comuna no existe."));
-
+    public ComunaDTO actualizarComuna(Integer id, Comuna comuna) {
+        Comuna comunaExistente = comunaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("La comuna no existe."));
         if (comuna.getNombreComuna() != null) {
             comunaExistente.setNombreComuna(comuna.getNombreComuna());
         }
         if (comuna.getRegion() != null) {
             comunaExistente.setRegion(comuna.getRegion());
         }
-        
-        return comunaRepository.save(comunaExistente);
-    }
-    
-    public String EliminarComuna(Integer id) {
-        try {
-            Comuna comuna = comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La comuna con ID " + id + " no existe."));
-            comunaRepository.delete(comuna);
-            return "La comuna ha sido eliminada correctamente.";
-        } catch (RuntimeException e) {
-            return e.getMessage();
+        if (comuna.getUsuario() != null) {
+            comunaExistente.setUsuario(comuna.getUsuario());
         }
+
+        Comuna updatedComuna = comunaRepository.save(comunaExistente);
+        return convertirComunaADTO(updatedComuna);
+    }
+
+    public Void eliminarComuna(Integer id) {
+        Comuna comuna = comunaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No se puede eliminar la comuna con ID " + id + " no existe."));
+        comunaRepository.delete(comuna);
+        return null;
     }
 }

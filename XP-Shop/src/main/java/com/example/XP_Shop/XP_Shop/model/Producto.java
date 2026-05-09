@@ -53,17 +53,18 @@ public class Producto {
     @Min(value = 0, message = "El producto no puede tener una cantidad inferior a 0")
     @Column(nullable = false)
     private Integer stock;
-
-    @OneToMany(mappedBy = "producto")
-    private List<Productos> productos;
     
     @ManyToOne
-    @JoinColumn(name = "marca_Id")
-    private Marca marca;
+    @JoinColumn(name = "marcas_Id")
+    private Marcas marcas;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_Id")
-    private Categoria categoria;
+    @JoinColumn(name = "categorias_Id")
+    private Categorias categorias;
+
+    @ManyToOne
+    @JoinColumn(name = "productos_id")
+    private Productos productos;
 
     @OneToMany(mappedBy = "producto")
     private List<Imagen> imagenes;

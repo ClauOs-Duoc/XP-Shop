@@ -12,7 +12,7 @@ public class BoletaDTO {
     private Double totalCompra;
     private String usuario;
     private String metodoEnvio;
-    private String producto;
     private String metodoPago;
+    private Integer detalleBoleta;
 
 }

@@ -9,6 +9,6 @@ public class DetalleBoletaDTO {
     private Integer cantidad;
     private Double subtotal;
     private Integer boleta;
-    private String producto;
+    private Integer productos;
     
 }
