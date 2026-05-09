@@ -41,8 +41,7 @@ public class MetodoEnvioService {
     }
     
     public MetodoEnvio BuscarMetodoEnvioPorId(Integer id) {
-        return metodoEnvioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El método de envío no existe en los registros!"));
+        return metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de envío no existe."));
     }
 
     public MetodoEnvio GuardarMetodoEnvio(MetodoEnvio metodoEnvio) {
@@ -50,8 +49,7 @@ public class MetodoEnvioService {
     }
 
     public MetodoEnvio ActualizarMetodoEnvio(Integer id, MetodoEnvio metodoEnvio) {
-        MetodoEnvio metodoExistente = metodoEnvioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El método de envío no existe en los registros!"));
+        MetodoEnvio metodoExistente = metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de envío no existe."));
 
         if (metodoEnvio.getNombreMetodoEnvio() != null) {
             metodoExistente.setNombreMetodoEnvio(metodoEnvio.getNombreMetodoEnvio());
@@ -62,12 +60,9 @@ public class MetodoEnvioService {
 
     public String EliminarMetodoEnvio(Integer id) {
         try {
-            MetodoEnvio metodoEnvio = metodoEnvioRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El método de envío con ID " 
-                            + id + " no existe."));
-
+            MetodoEnvio metodoEnvio = metodoEnvioRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar el método de envío con ID " + id + " no existe."));
             metodoEnvioRepository.delete(metodoEnvio);
-            return "El método de envío ha sido eliminado exitosamente.";
+            return "El método de envío ha sido eliminado correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

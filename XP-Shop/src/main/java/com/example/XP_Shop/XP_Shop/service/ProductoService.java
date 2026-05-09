@@ -22,8 +22,7 @@ public class ProductoService {
     }
 
     public Producto BuscarProductoPorId(Integer id) {
-        return productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El producto no existe en los registros!"));
+        return productoRepository.findById(id).orElseThrow(() -> new RuntimeException("El producto no existe."));
     }
 
     public Producto GuardarProducto(Producto producto) {
@@ -31,8 +30,7 @@ public class ProductoService {
     }
 
     public Producto ActualizarProducto(Integer id, Producto producto) {
-        Producto productoExistente = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El producto no existe en los registros!"));
+        Producto productoExistente = productoRepository.findById(id).orElseThrow(() -> new RuntimeException("El producto no existe."));
 
         if (producto.getNombreProducto() != null) {
             productoExistente.setNombreProducto(producto.getNombreProducto());
@@ -58,12 +56,9 @@ public class ProductoService {
 
     public String EliminarProducto(Integer id) {
         try {
-            Producto producto = productoRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El producto con ID " 
-                            + id + " no existe."));
-
+            Producto producto = productoRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar El producto con ID " + id + " no existe."));
             productoRepository.delete(producto);
-            return "El producto ha sido eliminado exitosamente.";
+            return "El producto ha sido eliminado correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

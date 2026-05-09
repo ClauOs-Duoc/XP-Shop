@@ -42,8 +42,7 @@ public class MarcaService {
     }
 
     public Marca BuscarMarcaPorId(Integer id) {
-        return marcaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La marca no existe en los registros!"));
+        return marcaRepository.findById(id).orElseThrow(() -> new RuntimeException("La marca no existe."));
     }
 
     public Marca GuardarMarca(Marca marca) {
@@ -51,8 +50,7 @@ public class MarcaService {
     }
 
     public Marca ActualizarMarca(Integer id, Marca marca) {
-        Marca marcaExistente = marcaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La marca no existe en los registros!"));
+        Marca marcaExistente = marcaRepository.findById(id).orElseThrow(() -> new RuntimeException("La marca no existe."));
 
         if (marca.getNombreMarca() != null) {
             marcaExistente.setNombreMarca(marca.getNombreMarca());
@@ -63,12 +61,9 @@ public class MarcaService {
 
     public String EliminarMarca(Integer id) {
         try {
-            Marca marca = marcaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La marca con ID " 
-                            + id + " no existe."));
-
+            Marca marca = marcaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La marca con ID " + id + " no existe."));
             marcaRepository.delete(marca);
-            return "La marca ha sido eliminada exitosamente.";
+            return "La marca ha sido eliminada correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

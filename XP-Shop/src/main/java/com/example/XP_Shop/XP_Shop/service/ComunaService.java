@@ -43,8 +43,7 @@ public class ComunaService {
     }
 
     public Comuna BuscarComunaPorId(Integer id) {
-        return comunaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La comuna no existe en los registros!"));
+        return comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("La comuna no existe."));
     }
 
     public Comuna GuardarComuna(Comuna comuna) {
@@ -52,8 +51,7 @@ public class ComunaService {
     }
 
     public Comuna ActualizarComuna(Integer id, Comuna comuna) {
-        Comuna comunaExistente = comunaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La comuna no existe en los registros!"));
+        Comuna comunaExistente = comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("La comuna no existe."));
 
         if (comuna.getNombreComuna() != null) {
             comunaExistente.setNombreComuna(comuna.getNombreComuna());
@@ -67,12 +65,9 @@ public class ComunaService {
     
     public String EliminarComuna(Integer id) {
         try {
-            Comuna comuna = comunaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La comuna con ID " 
-                            + id + " no existe."));
-
+            Comuna comuna = comunaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La comuna con ID " + id + " no existe."));
             comunaRepository.delete(comuna);
-            return "La comuna ha sido eliminada exitosamente.";
+            return "La comuna ha sido eliminada correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

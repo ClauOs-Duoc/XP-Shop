@@ -43,8 +43,7 @@ public class RegionService {
     }
 
     public Region BuscarRegionPorId(Integer id) {
-        return regionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La región no existe en los registros!"));
+        return regionRepository.findById(id).orElseThrow(() -> new RuntimeException("La región no existe."));
     }
 
     public Region GuardarRegion(Region region) {
@@ -52,8 +51,7 @@ public class RegionService {
     }
 
     public Region ActualizarRegion(Integer id, Region region) {
-        Region regionExistente = regionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La región no existe en los registros!"));
+        Region regionExistente = regionRepository.findById(id).orElseThrow(() -> new RuntimeException("La región no existe."));
 
         if (region.getNombreRegion() != null) {
             regionExistente.setNombreRegion(region.getNombreRegion());
@@ -64,12 +62,10 @@ public class RegionService {
 
     public String EliminarRegion(Integer id) {
         try {
-            Region region = regionRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La región con ID " 
-                            + id + " no existe."));
+            Region region = regionRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La región con ID " + id + " no existe."));
 
             regionRepository.delete(region);
-            return "La región ha sido eliminada exitosamente.";
+            return "La región ha sido eliminada correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

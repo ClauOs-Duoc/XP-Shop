@@ -21,8 +21,7 @@ public class BoletaService {
     }
 
     public Boleta BuscarBoletaPorId(Integer id) {
-        return boletaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La boleta no existe en los registros!"));
+        return boletaRepository.findById(id).orElseThrow(() -> new RuntimeException("La boleta no existe."));
     }
 
     public Boleta GuardarBoleta(Boleta boleta) {
@@ -30,8 +29,7 @@ public class BoletaService {
     }
 
     public Boleta ActualizarBoleta(Integer id, Boleta boleta) {
-        Boleta boletaExistente = boletaRepository.findById(id).orElseThrow(() -> new
-         RuntimeException("¡La boleta no existe en los registros!"));
+        Boleta boletaExistente = boletaRepository.findById(id).orElseThrow(() -> new RuntimeException("La boleta no existe."));
 
         if (boleta.getFechaCompra() != null) {
             boletaExistente.setFechaCompra(boleta.getFechaCompra());
@@ -54,12 +52,9 @@ public class BoletaService {
 
     public String EliminarBoleta(Integer id) {
         try {
-            Boleta boleta = boletaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La boleta con ID " 
-                            + id + " no existe."));
-
+            Boleta boleta = boletaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La boleta con ID" + id + " no existe."));
             boletaRepository.delete(boleta);
-            return "La boleta ha sido eliminada exitosamente.";
+            return "La boleta ha sido eliminada correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

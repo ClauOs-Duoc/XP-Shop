@@ -22,8 +22,7 @@ public class UsuarioService {
     }
 
     public Usuario BuscarUsuarioPorId(Integer id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El usuario no existe en los registros!"));
+        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("El usuario no existe."));
     }
 
     public Usuario GuardarUsuario(Usuario usuario) {
@@ -31,8 +30,7 @@ public class UsuarioService {
     }
     
     public Usuario ActualizarUsuario(Integer id, Usuario usuario) {
-        Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El usuario no existe en los registros!"));
+        Usuario usuarioExistente = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("El usuario no existe."));
 
         if (usuario.getNombreUsuario() != null) {
             usuarioExistente.setNombreUsuario(usuario.getNombreUsuario());
@@ -52,12 +50,9 @@ public class UsuarioService {
 
     public String EliminarUsuario(Integer id) {
         try {
-            Usuario usuario = usuarioRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El usuario con ID " 
-                            + id + " no existe."));
-
+            Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede elminar el usuario con ID " + id + " no existe."));
             usuarioRepository.delete(usuario);
-            return "El usuario ha sido eliminado exitosamente.";
+            return "El usuario ha sido eliminado correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

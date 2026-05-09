@@ -43,8 +43,7 @@ public class ImagenService {
     }
 
     public ImagenDTO buscarImagenPorId(Integer id) {
-        Imagen imagen = imagenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("La imagen no existe"));
+        Imagen imagen = imagenRepository.findById(id).orElseThrow(() -> new RuntimeException("La imagen no existe."));
         return convertirImagenADTO(imagen);
     }
 
@@ -54,7 +53,7 @@ public class ImagenService {
     }
 
     public ImagenDTO actualizarImagen(Integer id, Imagen imagen) {
-        Imagen imagenExistente = imagenRepository.findById(id).orElseThrow(() -> new RuntimeException("La imagen no existe en los registros"));
+        Imagen imagenExistente = imagenRepository.findById(id).orElseThrow(() -> new RuntimeException("La imagen no existe."));
         if (imagen.getNombreImagen() != null) {
             imagenExistente.setNombreImagen(imagen.getNombreImagen());
         }

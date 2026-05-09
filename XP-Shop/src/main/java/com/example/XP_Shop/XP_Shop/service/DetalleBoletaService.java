@@ -22,8 +22,7 @@ public class DetalleBoletaService {
     }
 
     public DetalleBoleta BuscarDetalleBoletaPorId(Long id) {
-        return detalleBoletaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El detalle de boleta no existe en los registros!"));
+        return detalleBoletaRepository.findById(id).orElseThrow(() -> new RuntimeException("El detalle de boleta no existe."));
     }
 
     public DetalleBoleta GuardarDetalleBoleta(DetalleBoleta detalleBoleta) {
@@ -31,8 +30,7 @@ public class DetalleBoletaService {
     }
 
     public DetalleBoleta ActualizarDetalleBoleta(Long id, DetalleBoleta detalleBoleta) {
-        DetalleBoleta detalleExistente = detalleBoletaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El detalle de boleta no existe en los registros!"));
+        DetalleBoleta detalleExistente = detalleBoletaRepository.findById(id).orElseThrow(() -> new RuntimeException("El detalle de boleta no existe."));
 
         if (detalleBoleta.getCantidad() != null) {
             detalleExistente.setCantidad(detalleBoleta.getCantidad());
@@ -52,12 +50,9 @@ public class DetalleBoletaService {
 
     public String EliminarDetalleBoleta(Long id) {
         try {
-            DetalleBoleta detalle = detalleBoletaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El detalle de boleta con ID " 
-                            + id + " no existe."));
-
+            DetalleBoleta detalle = detalleBoletaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar el detalle de la boleta con ID " + id + " no existe."));
             detalleBoletaRepository.delete(detalle);
-            return "El detalle de boleta ha sido eliminado exitosamente.";
+            return "El detalle de boleta ha sido eliminado correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

@@ -41,8 +41,7 @@ public class MetodoPagoService {
     }
 
     public MetodoPago BuscarMetodoPagoPorId(Integer id) {
-        return metodoPagoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El método de pago no existe en los registros!"));
+        return metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de pago no existe."));
     }
 
     public MetodoPago GuardarMetodoPago(MetodoPago metodoPago) {
@@ -50,8 +49,7 @@ public class MetodoPagoService {
     }
 
     public MetodoPago ActualizarMetodoPago(Integer id, MetodoPago metodoPago) {
-        MetodoPago metodoExistente = metodoPagoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡El método de pago no existe en los registros!"));
+        MetodoPago metodoExistente = metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("El método de pago no existe."));
 
         if (metodoPago.getNombreMetodoPago() != null) {
             metodoExistente.setNombreMetodoPago(metodoPago.getNombreMetodoPago());
@@ -62,12 +60,9 @@ public class MetodoPagoService {
 
     public String EliminarMetodoPago(Integer id) {
         try {
-            MetodoPago metodoPago = metodoPagoRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El método de pago con ID " 
-                            + id + " no existe."));
-
+            MetodoPago metodoPago = metodoPagoRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar el método de pago con ID " + id + " no existe."));
             metodoPagoRepository.delete(metodoPago);
-            return "El método de pago ha sido eliminado exitosamente.";
+            return "El método de pago ha sido eliminado correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }

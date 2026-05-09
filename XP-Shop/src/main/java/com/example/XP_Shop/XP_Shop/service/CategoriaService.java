@@ -21,8 +21,7 @@ public class CategoriaService {
     }
     
     public Categoria BuscarCategoriaPorId(Integer id) {
-        return categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La categoría no existe en los registros!"));
+        return categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("La categoria no existe."));
     }
 
     public Categoria GuardarCategoria(Categoria categoria) {
@@ -30,8 +29,7 @@ public class CategoriaService {
     }
 
     public Categoria ActualizarCategoria(Integer id, Categoria categoria) {
-        Categoria categoriaExistente = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("¡La categoría no existe en los registros!"));
+        Categoria categoriaExistente = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("La categoria no existe."));
 
         if (categoria.getNombreCategoria() != null) {
             categoriaExistente.setNombreCategoria(categoria.getNombreCategoria());
@@ -42,12 +40,9 @@ public class CategoriaService {
 
     public String EliminarCategoria(Integer id) {
         try {
-            Categoria categoria = categoriaRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! La categoría con ID " 
-                            + id + " no existe."));
-
+            Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new RuntimeException("No se puede eliminar La categoría con ID" + id + " no existe."));
             categoriaRepository.delete(categoria);
-            return "La categoría ha sido eliminada exitosamente.";
+            return "La categoría ha sido eliminada correctamente.";
         } catch (RuntimeException e) {
             return e.getMessage();
         }
