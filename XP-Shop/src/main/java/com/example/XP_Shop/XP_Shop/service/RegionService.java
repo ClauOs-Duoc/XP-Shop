@@ -41,7 +41,7 @@ public class RegionService {
                     .toList();
     }
     
-    public RegionDTO nuscarRegionPorId(Integer id) {
+    public RegionDTO buscarRegionPorId(Integer id) {
         Region region = regionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Region no encontrado"));
         return convertirRegionADTO(region);

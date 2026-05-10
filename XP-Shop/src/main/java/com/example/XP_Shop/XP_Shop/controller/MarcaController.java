@@ -19,6 +19,8 @@ import com.example.XP_Shop.XP_Shop.dto.MarcaDTO;
 import com.example.XP_Shop.XP_Shop.model.Marca;
 import com.example.XP_Shop.XP_Shop.service.MarcaService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/marca")
 public class MarcaController {
@@ -46,7 +48,7 @@ public class MarcaController {
     }
 
     @PostMapping
-    public ResponseEntity<Marca> agregarMarca(@RequestBody Marca marca) {
+    public ResponseEntity<Marca> agregarMarca(@Valid @RequestBody Marca marca) {
         try {
             marcaService.guardarMarca(marca);
             return new ResponseEntity<>(marca, HttpStatus.CREATED);

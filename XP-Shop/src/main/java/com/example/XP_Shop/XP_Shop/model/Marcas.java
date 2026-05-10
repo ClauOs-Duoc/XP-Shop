@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,12 +23,10 @@ public class Marcas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMarcas;
 
-    @OneToMany(mappedBy = "marca")
-    @JoinColumn(name = "marca_id")
-    private List<Marca> Marcas;
-
-    @OneToMany(mappedBy = "producto")
-    @JoinColumn(name = "producto_id")
+    @OneToMany(mappedBy = "marcas")
+    private List<Marca> marcas;
+ 
+    @OneToMany(mappedBy = "marcas")
     private List<Producto> productos;
 
 }

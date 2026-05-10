@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,12 +23,9 @@ public class Productos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProductos;
 
-    @OneToMany(mappedBy = "producto")
-    @JoinColumn(name = "producto_id")
+    @OneToMany(mappedBy = "productos")
     private List<Producto> producto;
-
-    @OneToMany(mappedBy = "detalleBoleta")
-    @JoinColumn(name = "detalleBoleta_id")
+ 
+    @OneToMany(mappedBy = "productos")
     private List<DetalleBoleta> detalleBoletas;
-
 }

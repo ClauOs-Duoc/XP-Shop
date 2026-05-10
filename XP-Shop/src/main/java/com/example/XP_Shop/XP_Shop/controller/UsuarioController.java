@@ -19,6 +19,8 @@ import com.example.XP_Shop.XP_Shop.dto.UsuarioDTO;
 import com.example.XP_Shop.XP_Shop.model.Usuario;
 import com.example.XP_Shop.XP_Shop.service.UsuarioService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/usuario")
 public class UsuarioController {
@@ -36,7 +38,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> buscarPorId(Integer id){
+    public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Integer id){
         try {
             UsuarioDTO usuario = usuarioService.BuscarUsuarioPorId(id);
             return new ResponseEntity<>(usuario, HttpStatus.OK);
@@ -46,7 +48,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> agregarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> agregarUsuario(@Valid @RequestBody Usuario usuario) {
         try {
             usuarioService.guardarUsuario(usuario);
             return new ResponseEntity<>(usuario, HttpStatus.CREATED);

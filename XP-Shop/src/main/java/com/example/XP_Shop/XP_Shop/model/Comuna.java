@@ -36,9 +36,9 @@ public class Comuna {
     @ManyToOne
     @JoinColumn(name = "region_Id")
     private Region region;
-
-    @OneToMany
-    @JoinColumn(name = "usuario_Id")
+ 
+    @OneToMany(mappedBy = "comuna")
     private List<Usuario> usuario;
+ 
     
 }

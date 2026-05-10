@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -32,8 +31,6 @@ public class MetodoPago {
     @Column(nullable = false, length = 100)
     private String nombreMetodoPago;
 
-    @OneToMany
-    @JoinColumn(name = "id_boleta")
+    @OneToMany(mappedBy = "metodoPago")
     private List<Boleta> boletas;
-    
 }

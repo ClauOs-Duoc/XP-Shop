@@ -38,7 +38,7 @@ public class RegionController {
     @GetMapping("/{id}")
     public ResponseEntity<RegionDTO> buscarPorId(Integer id){
         try {
-            RegionDTO region = regionService.nuscarRegionPorId(id);
+            RegionDTO region = regionService.buscarRegionPorId(id);
             return new ResponseEntity<>(region, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
