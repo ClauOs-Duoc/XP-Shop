@@ -53,9 +53,9 @@ public class ProductoService {
         return convertirProductoADTO(producto);
     }
 
-    public ProductoDTO guardarProductoEnvio(Producto producto) {
-        Producto savedProducto = productoRepository.save(producto);
-        return convertirProductoADTO(savedProducto);
+    public ProductoDTO guardarProducto(Producto producto) {
+        Producto nuevoProducto = productoRepository.save(producto);
+        return convertirProductoADTO(nuevoProducto);
     }
 
     public ProductoDTO actualizarProducto(Integer id, Producto producto) {

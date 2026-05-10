@@ -27,7 +27,7 @@ public class MetodoPagoController {
     private MetodoPagoService metodoPagoService;
 
     @GetMapping
-    public ResponseEntity<List<MetodoPagoDTO>> todOsLOsMetodoPago() {
+    public ResponseEntity<List<MetodoPagoDTO>> todosLosMetodoPago() {
         List<MetodoPagoDTO> metodoPago = metodoPagoService.listarMetodoPago();
         if (metodoPago.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
