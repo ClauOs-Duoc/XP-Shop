@@ -29,7 +29,7 @@ public class ImagenService {
         return dto;
     }
 
-    public List<ImagenDTO> listarMetodoEnvio() {
+    public List<ImagenDTO> listarImagen() {
         return imagenRepository.findAll().stream()
                     .map(this::convertirImagenADTO)
                     .toList();
