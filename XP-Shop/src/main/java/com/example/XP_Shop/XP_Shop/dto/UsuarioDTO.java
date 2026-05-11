@@ -11,7 +11,7 @@ public class UsuarioDTO {
     private Integer idUsuario;
     private String nombreUsuario;
     private String correo;
-    private LocalDate fechaNaciomiento;
+    private LocalDate fechaNacimiento;
     private List<Integer> idBoleta;
     private String nombreComuna;
 

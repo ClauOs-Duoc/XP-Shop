@@ -3,6 +3,8 @@ package com.example.XP_Shop.XP_Shop.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ProductoService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductoService.class);
 
     @Autowired
     private ProductoRepository productoRepository;
@@ -42,23 +46,28 @@ public class ProductoService {
     }
 
     public List<ProductoDTO> listarProducto() {
+        log.info("Listando todos los productos");
         return productoRepository.findAll().stream()
                     .map(this::convertirProductoADTO)
                     .toList();
     }
     
     public ProductoDTO buscarProductoPorId(Integer id) {
+        log.info("Buscando producto por ID: {}", id);
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return convertirProductoADTO(producto);
     }
 
     public ProductoDTO guardarProducto(Producto producto) {
+        log.info("Guardando nuevo producto");
         Producto nuevoProducto = productoRepository.save(producto);
+        log.info("Producto guardado con ID: {}", nuevoProducto.getIdProducto());
         return convertirProductoADTO(nuevoProducto);
     }
 
     public ProductoDTO actualizarProducto(Integer id, Producto producto) {
+        log.info("Actualizando producto con ID: {}", id);
         Producto productoExistente = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("El producto no existe."));
         if (producto.getNombreProducto() != null) {
@@ -87,13 +96,17 @@ public class ProductoService {
         }
 
         Producto updatedProducto = productoRepository.save(productoExistente);
+        log.info("Producto actualizado con ID: {}", id);
         return convertirProductoADTO(updatedProducto);
+
     }
 
     public Void eliminarProducto(Integer id) {
+        log.info("Eliminando producto con ID: {}", id);
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No se puede eliminar el producto con ID " + id + " no existe."));
         productoRepository.delete(producto);
+        log.info("Producto con ID {} eliminado exitosamente", id);
         return null;
     }
 }
