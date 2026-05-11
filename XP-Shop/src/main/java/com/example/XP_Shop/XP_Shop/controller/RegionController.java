@@ -36,7 +36,7 @@ public class RegionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegionDTO> buscarPorId(Integer id){
+    public ResponseEntity<RegionDTO> buscarPorId(@PathVariable Integer id){
         try {
             RegionDTO region = regionService.buscarRegionPorId(id);
             return new ResponseEntity<>(region, HttpStatus.OK);
@@ -56,7 +56,7 @@ public class RegionController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Region> editarRegiom(@PathVariable Integer id, @RequestBody Region region) {
+    public ResponseEntity<Region> editarRegion(@PathVariable Integer id, @RequestBody Region region) {
         try {
             regionService.guardarRegion(region);
             return new ResponseEntity<>(region, HttpStatus.OK);
